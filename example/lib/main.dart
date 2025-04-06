@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dio_shaker_interceptor/dio_shaker_interceptor.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 
 void main() {
   final dio = Dio();
