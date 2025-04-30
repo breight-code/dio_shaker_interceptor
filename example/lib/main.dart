@@ -16,10 +16,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ShakerDioDetect.detectShakeAndOpenListCurlScreen(
-      buildContext: context,
-      navigatorKey: null,
-    );
     return MaterialApp(
       title: 'Dio Shaker Example',
       theme: ThemeData(
@@ -39,6 +35,20 @@ class HomePage extends StatelessWidget {
   Future<void> makeApiCall() async {
     try {
       await dio.get('https://jsonplaceholder.typicode.com/posts/1');
+      await dio.get('https://jsonplaceholder.typicode.com/posts/1');
+      await dio.get('https://jsonplaceholder.typicode.com/posts/1');
+      await dio.get('https://jsonplaceholder.typicode.com/posts/1');
+      await dio.get('https://jsonplaceholder.typicode.com/posts/1');
+      await dio.get('https://jsonplaceholder.typicode.com/posts/10');
+      await dio.get('https://jsonplaceholder.typicode.com/posts/1');
+      await dio.get('https://jsonplaceholder.typicode.com/posts/112121');
+      await dio.get('https://jsonplaceholder.typicode.com/posts/1');
+      await dio.get('https://jsonplaceholder.typicode.com/postssdsds/1');
+      await dio.get('https://jsonplaceholder.typicode.com/posts/3');
+      await dio.get('https://jsonplaceholder.typicode.com/posts/1');
+      await dio.get('https://jsonplaceholder.typicode.com/posts/4');
+      await dio.get('https://jsonplaceholder.typicode.com/posts/2');
+
       await dio.post('https://jsonplaceholder.typicode.com/posts', data: {
         'title': 'foo',
         'body': 'bar',
@@ -51,6 +61,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ShakerDioDetect.detectShakeAndOpenListCurlScreen(
+        buildContext: context, navigatorKey: null, shakeThresholdGravity: 0.1);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dio Shaker Example'),

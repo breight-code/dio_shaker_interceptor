@@ -22,7 +22,7 @@ class CurlLogs {
   }
 
   void addItem(CurlModel model) {
-    items.add(model);
+    items.insert(0, model);
   }
 
   static CurlLogs get instance {

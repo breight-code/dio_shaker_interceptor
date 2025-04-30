@@ -6,6 +6,7 @@ import 'package:dio_shaker_interceptor/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+
 /// The `ActionButton` widget is a stateless widget that provides a popup menu
 /// with various actions related to a cURL request. The actions include copying
 /// the cURL command, sharing the cURL command, sharing detailed request and
@@ -23,7 +24,7 @@ import 'package:share_plus/share_plus.dart';
 /// - Share cURL: Shares the cURL command using the system's share functionality.
 /// - Share data: Shares detailed request and response data using the system's share functionality.
 /// - Save and share data: Saves the detailed data to a file and shares the file using the system's share functionality.
-/// 
+///
 /// The `onSelected` callback handles the selected action and performs the
 /// corresponding task. The `getApplicationDocumentsDirectory` function from
 /// the `path_provider` package is used to get the directory for saving the file.

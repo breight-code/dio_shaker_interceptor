@@ -3,8 +3,6 @@ description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-repository: https://github.com/marcobrotto99/dio_shaker_interceptor
-homepage: https://github.com/marcobrotto99/dio_shaker_interceptor
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -36,7 +34,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
-  dio: ^5.5.0+1
+  dio: ^5.8.0+1
   dio_shaker_interceptor: 
     path: ../
 dev_dependencies:

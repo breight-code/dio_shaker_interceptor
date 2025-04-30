@@ -18,14 +18,15 @@ class Utils {
 
     request.headers.forEach((key, value) {
       if (key.toLowerCase() != 'content-length') {
-        stringBuilder.write(' -H "$key:$value"');
+        stringBuilder.write(' -H "$key: $value"');
       }
     });
 
-    stringBuilder
-      ..write(' -H "gzip:gzip"')
-      ..write(' -d "${getCurlInputBody(request.body)}"')
-      ..write(' "${request.url}"');
+    if (request.body != null && request.body.isNotEmpty) {
+      stringBuilder.write(' -d \'${getCurlInputBody(request.body)}\'');
+    }
+
+    stringBuilder.write(' "${request.url}"');
 
     return stringBuilder.toString();
   }

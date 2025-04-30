@@ -21,7 +21,8 @@ class CurlDetailScreen extends StatelessWidget {
   CurlDetailScreen({super.key, required this.curlModel});
 
   /// The text style used for titles in the detail view.
-  final TextStyle titleSyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
+  final TextStyle titleSyle =
+      TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
 
   @override
   Widget build(BuildContext context) {
