@@ -53,7 +53,7 @@ class CurlDetailScreen extends StatelessWidget {
                 SizedBox(height: 16.0),
                 if (curlModel.body != null) ...[
                   Text('Body:', style: titleSyle),
-                  Text(curlModel.body.toString()),
+                  Text(JsonEncoder.withIndent('  ').convert(curlModel.body)),
                   SizedBox(height: 16.0),
                 ],
                 if (curlModel.queryParameters.isNotEmpty) ...[

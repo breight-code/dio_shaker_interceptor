@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 
 class CurlCard extends StatelessWidget {
   final CurlModel item;
+
   const CurlCard({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       color: Colors.white,
-      margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      margin: EdgeInsets.symmetric(vertical: 8.0),
       elevation: 2,
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
@@ -36,28 +37,57 @@ class CurlCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 4.0),
-                      child: Row(
+                    Row(
+                      children: [
+                        Text(
+                          'Status: ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '${item.status ?? 'ongoing'}',
+                          style: TextStyle(
+                            color: item.color,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    RichText(
+                      text: TextSpan(
+                        text: item.method,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black
+                        ),
                         children: [
-                          Row(
-                            children: [
-                              Text(
-                                'Status: ',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                '${item.status ?? 'ongoing'}',
-                                style: TextStyle(
-                                  color: item.color,
-                                ),
-                              ),
-                            ],
+                          TextSpan(
+                            text: ' ${item.url.path}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black,
+                            ),
                           ),
                         ],
                       ),
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        Text(
+                          'Duration: ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          Utils().calculateTimeBetweenTwoDate(
+                            item.creationDate,
+                            item.updateDate ?? DateTime.now(),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

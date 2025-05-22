@@ -1,6 +1,6 @@
 name: dio_shaker_interceptor
 description: Shake to debug! dio_shaker_interceptor shows network request details. Inspect HTTP data easily with this Dio interceptor.
-version: 0.1.0
+version: 0.1.1
 homepage: https://github.com/breight-code/dio_shaker_interceptor
 repository: https://github.com/breight-code/dio_shaker_interceptor/tree/main/lib
 issue_tracker: https://github.com/breight-code/dio_shaker_interceptor/issues

@@ -62,10 +62,10 @@ ${curlModel.updateDate != null ? 'Duration: ${Utils().calculateTimeBetweenTwoDat
             Utils().copyCurl(curlModel, context);
             break;
           case 1:
-            await Share.share(curl);
+            await SharePlus.instance.share(ShareParams(text: curl));
             break;
           case 2:
-            await Share.share(data);
+            await SharePlus.instance.share(ShareParams(text: data));
             break;
           case 3:
             final directory = await getApplicationDocumentsDirectory();
@@ -74,7 +74,7 @@ ${curlModel.updateDate != null ? 'Duration: ${Utils().calculateTimeBetweenTwoDat
             final file = File(path);
             await file.writeAsString(data);
             final XFile xFile = XFile(path);
-            await Share.shareXFiles([xFile]);
+            await SharePlus.instance.share(ShareParams(files: [xFile]));
             break;
         }
       },

@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 0.1.1
+
+*Minor Update*
+
+*   **UI Enhancement:** Improved the visual presentation of `CurlCard` by adding spacing between elements and displaying the HTTP method alongside the path.
+*   **Feature:** Added a duration display to `CurlCard`, showing the time elapsed between request initiation and response.
+*   **UX Improvement:** Implemented a `GestureDetector` in `ListCurlBody` to dismiss the keyboard when tapping outside the search field.
+*   **Update:** Updated the sharing mechanism in `ActionButton` to use `SharePlus` for better compatibility and functionality.
+*   **UI Enhancement:** Formatted the body display in `CurlDetailScreen` using `JsonEncoder` for improved readability.
+*   **UI Enhancement:** Adjusted padding and margins for better visual consistency.
+
 ## Version 0.1.0 
 
 *Major Update*

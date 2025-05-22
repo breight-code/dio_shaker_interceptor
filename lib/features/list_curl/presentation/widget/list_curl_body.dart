@@ -17,38 +17,49 @@ class ListCurlBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextField(
-            controller: context.listCurlCubit.searchController,
-            decoration: InputDecoration(
-              labelText: 'Search',
-              border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.search),
-            ),
-          ),
-        ),
-        StatusListWidget(),
-        Expanded(
-          child: BlocBuilder<ListCurlCubit, ListCurlState>(
-            bloc: context.listCurlCubit,
-            builder: (context, state) {
-              if (state.curlList.isNotEmpty) {
-                return ListView.builder(
-                  itemCount: state.curlList.length,
-                  itemBuilder: (context, index) {
-                    return CurlCard(item: state.curlList[index]);
+    return
+      GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: TextField(
+                  controller: context.listCurlCubit.searchController,
+                  decoration: InputDecoration(
+                    labelText: 'Search',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    prefixIcon: Icon(Icons.search),
+                  ),
+                ),
+              ),
+              StatusListWidget(),
+              Expanded(
+                child: BlocBuilder<ListCurlCubit, ListCurlState>(
+                  bloc: context.listCurlCubit,
+                  builder: (context, state) {
+                    if (state.curlList.isNotEmpty) {
+                      return ListView.builder(
+                        itemCount: state.curlList.length,
+                        itemBuilder: (context, index) {
+                          return CurlCard(item: state.curlList[index]);
+                        },
+                      );
+                    } else {
+                      return Center(child: Text('No items found'));
+                    }
                   },
-                );
-              } else {
-                return Center(child: Text('No items found'));
-              }
-            },
+                ),
+              ),
+            ],
           ),
         ),
-      ],
-    );
+      );
   }
 }
