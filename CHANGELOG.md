@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 0.1.2
+
+*Chore: dependency updates.*
+
+*   Updated `dio`, `flutter_bloc`, `equatable`, `collection`, `get_it`, `sensors_plus`, `share_plus`, and `flutter_lints` (package and example app) to the latest mutually compatible releases on pub.dev.
+*   `share_plus` remains on **12.x** while the Dart SDK constraint stays below **3.10** (share_plus **13.x** requires SDK >=3.10.0).
+
 ## Version 0.1.1
 
 *Minor Update*

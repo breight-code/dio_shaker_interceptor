@@ -19,7 +19,7 @@ To use the `dio_shaker_interceptor` package, follow these steps:
 
     ```yaml
     dependencies:
-      dio_shaker_interceptor: ^0.0.1
+      dio_shaker_interceptor: ^0.1.0
     ```
 
 2.  **Import the Package**:
