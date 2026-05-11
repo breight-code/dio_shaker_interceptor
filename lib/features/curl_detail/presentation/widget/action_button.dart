@@ -14,77 +14,76 @@ import 'package:share_plus/share_plus.dart';
 ///
 /// The widget takes a `CurlModel` object as a parameter, which contains all the
 /// necessary information about the cURL request and response.
-///
-/// The `PopupMenuButton` widget is used to display the popup menu with the
-/// available actions. When an action is selected, the corresponding functionality
-/// is executed using the `Utils` class and the `Share` package.
-///
-/// The available actions are:
-/// - Copy cURL: Copies the cURL command to the clipboard.
-/// - Share cURL: Shares the cURL command using the system's share functionality.
-/// - Share data: Shares detailed request and response data using the system's share functionality.
-/// - Save and share data: Saves the detailed data to a file and shares the file using the system's share functionality.
-///
-/// The `onSelected` callback handles the selected action and performs the
-/// corresponding task. The `getApplicationDocumentsDirectory` function from
-/// the `path_provider` package is used to get the directory for saving the file.
-///
-/// The `Utils` class provides utility functions for generating the cURL command,
-/// copying the cURL command to the clipboard, and calculating the duration
-/// between two dates.
-
 class ActionButton extends StatelessWidget {
   final CurlModel curlModel;
 
   const ActionButton({super.key, required this.curlModel});
+
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<int>(
-      onSelected: (value) async {
-        final curl = Utils().getCurl(curlModel);
-        final data = '''
-Request data:\n
-URL: ${curlModel.url}
-Method: ${curlModel.method}
-Headers: ${JsonEncoder.withIndent('  ').convert(curlModel.headers)}
-Body: ${curlModel.body}
-Query Parameters: ${JsonEncoder.withIndent('  ').convert(curlModel.queryParameters)}
-Send at: ${curlModel.creationDate}
-\nResponse data:\n
-Status: ${curlModel.status}
-Response: ${JsonEncoder.withIndent('  ').convert(curlModel.response)}
-Response at: ${curlModel.updateDate}
-${curlModel.updateDate != null ? 'Duration: ${Utils().calculateTimeBetweenTwoDate(curlModel.creationDate, curlModel.updateDate!)}' : ''}
-\nCurl: $curl
-                  ''';
+      onSelected: (int value) async {
+        final Utils utils = Utils();
         switch (value) {
           case 0:
-            Utils().copyCurl(curlModel, context);
+            utils.copyCurl(curlModel, context, redactHeaders: true);
             break;
           case 1:
-            await SharePlus.instance.share(ShareParams(text: curl));
+            await SharePlus.instance.share(
+              ShareParams(text: utils.getCurl(curlModel, redactHeaders: true)),
+            );
             break;
           case 2:
+            final String data = _buildShareData(utils, redactHeaders: true);
             await SharePlus.instance.share(ShareParams(text: data));
             break;
           case 3:
-            final directory = await getApplicationDocumentsDirectory();
-            final path =
+            final String data = _buildShareData(utils, redactHeaders: true);
+            final Directory directory = await getApplicationDocumentsDirectory();
+            final String path =
                 '${directory.path}/curl_details_${DateTime.now().millisecondsSinceEpoch}.txt';
-            final file = File(path);
+            final File file = File(path);
             await file.writeAsString(data);
             final XFile xFile = XFile(path);
-            await SharePlus.instance.share(ShareParams(files: [xFile]));
+            await SharePlus.instance.share(ShareParams(files: <XFile>[xFile]));
+            break;
+          case 4:
+            await showDialog<void>(
+              context: context,
+              builder: (BuildContext ctx) {
+                return AlertDialog(
+                  title: const Text('Copia curl senza redaction'),
+                  content: const Text(
+                    'Gli header sensibili (Authorization, Cookie, …) saranno inclusi in chiaro. Continuare?',
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.of(ctx).pop(),
+                      child: const Text('Annulla'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                        utils.copyCurl(curlModel, context, redactHeaders: false);
+                      },
+                      child: const Text('Copia'),
+                    ),
+                  ],
+                );
+              },
+            );
             break;
         }
       },
       itemBuilder: (BuildContext context) {
-        return {
+        const Map<int, String> items = <int, String>{
           0: 'Copy curl',
           1: 'Share curl',
           2: 'Share data',
-          3: 'Download data'
-        }
+          3: 'Download data',
+          4: 'Copy curl (raw, no redact)',
+        };
+        return items
             .map((int key, String value) {
               return MapEntry(
                 key,
@@ -97,7 +96,38 @@ ${curlModel.updateDate != null ? 'Duration: ${Utils().calculateTimeBetweenTwoDat
             .values
             .toList();
       },
-      icon: Icon(Icons.more_vert),
+      icon: const Icon(Icons.more_vert),
     );
+  }
+
+  String _encodeJsonSafe(dynamic value) {
+    try {
+      if (value == null) {
+        return 'null';
+      }
+      return JsonEncoder.withIndent('  ').convert(value);
+    } catch (_) {
+      return value.toString();
+    }
+  }
+
+  String _buildShareData(Utils utils, {required bool redactHeaders}) {
+    final Map<String, dynamic> headersForExport =
+        Utils.redactedHeadersMap(curlModel.headers, redact: redactHeaders);
+    return '''
+Request data:\n
+URL: ${curlModel.url}
+Method: ${curlModel.method}
+Headers: ${JsonEncoder.withIndent('  ').convert(headersForExport)}
+Body: ${_encodeJsonSafe(curlModel.body)}
+Query Parameters: ${_encodeJsonSafe(curlModel.queryParameters)}
+Send at: ${curlModel.creationDate}
+\nResponse data:\n
+Status: ${curlModel.status}
+Response: ${_encodeJsonSafe(curlModel.response)}
+Response at: ${curlModel.updateDate}
+${curlModel.updateDate != null ? 'Duration: ${utils.calculateTimeBetweenTwoDate(curlModel.creationDate, curlModel.updateDate!)}' : ''}
+\nCurl: ${utils.getCurl(curlModel, redactHeaders: redactHeaders)}
+                  ''';
   }
 }

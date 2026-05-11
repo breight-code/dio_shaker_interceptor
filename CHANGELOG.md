@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 0.2.0
+
+*   **Fix:** Stable request/response pairing via id in `RequestOptions.extra` (no more collisions when parallel requests share the same URL).
+*   **Fix:** Bounded in-memory history with `CurlLogs.maxItems` (default 200); oldest entries are dropped first.
+*   **Fix:** `markClosed()` and reset after `Navigator.pop` so shake can open the inspector again after closing it.
+*   **Feature:** POSIX-safe escaping for cURL bodies and headers; sensitive header redaction (`Authorization`, `Cookie`, etc.) on copy/share/download; **Copy curl (raw, no redact)** menu item behind a confirmation dialog.
+*   **Feature:** `CurlModel.id`, estimated `requestSize` / `responseSize`; `Utils.estimateSize`, `Utils.redactedHeadersMap`; `getCurlModelByUri` is `@Deprecated`.
+*   **Chore:** Additional exports in `dio_shaker_interceptor.dart` (`CurlLogs`, `Utils`, `CurlModel`, constants); unit tests for utils, logger, and interceptor.
+
 ## Version 0.1.2
 
 *Chore: dependency updates.*

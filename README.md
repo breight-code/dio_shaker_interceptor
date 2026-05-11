@@ -19,8 +19,27 @@ To use the `dio_shaker_interceptor` package, follow these steps:
 
     ```yaml
     dependencies:
-      dio_shaker_interceptor: ^0.1.0
+      dio_shaker_interceptor: ^0.2.0
     ```
+
+## Configuration
+
+Limita la coda di richieste in memoria (default `200`) e personalizza gli header redatti nei comandi cURL condivisi / copiati:
+
+```dart
+import 'package:dio_shaker_interceptor/dio_shaker_interceptor.dart';
+
+void configureDioShaker() {
+  CurlLogs.instance.maxItems = 500;
+  Utils.redactedHeaderPatterns.add(
+    RegExp(r'^x-custom-token$', caseSensitive: false),
+  );
+}
+```
+
+Ogni richiesta ha un `id` stabile (`CurlModel.id`); il match risposta usa internamente `RequestOptions.extra[kDsiRequestIdExtraKey]` (`_dsi_id`).
+
+Per copiare un cURL con header sensibili in chiaro (solo dopo conferma), usa **Copy curl (raw, no redact)** dal menu del dettaglio.
 
 2.  **Import the Package**:
 

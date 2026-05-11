@@ -16,9 +16,10 @@ class ListCurlScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      onPopInvokedWithResult: (didPop, result) {
-        // Reset the state indicating whether the list is open when the screen is popped.
-        CurlLogs.instance.isAlreadyOpen = false;
+      onPopInvokedWithResult: (bool didPop, Object? result) {
+        if (didPop) {
+          CurlLogs.instance.markClosed();
+        }
       },
       child: BlocProvider(
         create: (context) => ListCurlCubit(),

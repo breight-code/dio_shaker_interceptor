@@ -1,7 +1,18 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+
+/// Genera un id univoco per una richiesta in-sessione (no dep esterne).
+String generateDsiRequestId() {
+  final Random r = Random();
+  return '${DateTime.now().microsecondsSinceEpoch}_${r.nextInt(0x7fffffff)}';
+}
 
 /// A model representing a cURL request and its associated data.
 class CurlModel {
+  /// Identificatore univoco della richiesta (match stabile con la risposta).
+  final String id;
+
   /// The URL of the request.
   final Uri url;
 
@@ -10,6 +21,12 @@ class CurlModel {
 
   /// The body of the request, if any.
   final dynamic body;
+
+  /// Dimensione stimata del body richiesta (es. jsonEncode), se nota.
+  final int? requestSize;
+
+  /// Dimensione stimata della risposta, quando disponibile.
+  final int? responseSize;
 
   /// Additional parameters for the request, if any.
   final Map<String, dynamic>? params;
@@ -37,9 +54,12 @@ class CurlModel {
 
   /// Constructs a [CurlModel] with the given parameters.
   CurlModel({
+    String? id,
     required this.url,
     required this.headers,
     this.body,
+    this.requestSize,
+    this.responseSize,
     this.status,
     this.response,
     required this.method,
@@ -48,14 +68,23 @@ class CurlModel {
     required this.queryParameters,
     required this.creationDate,
     this.updateDate,
-  });
+  }) : id = id ?? generateDsiRequestId();
 
-  /// Creates a copy of this [CurlModel] with optional new values for [status] and [response].
-  CurlModel copyWith({int? status, dynamic response}) {
+  /// Creates a copy of this [CurlModel] with optional new values.
+  CurlModel copyWith({
+    String? id,
+    int? status,
+    dynamic response,
+    int? requestSize,
+    int? responseSize,
+  }) {
     return CurlModel(
+      id: id ?? this.id,
       url: url,
       headers: headers,
       body: body,
+      requestSize: requestSize ?? this.requestSize,
+      responseSize: responseSize ?? this.responseSize,
       params: params,
       status: status ?? this.status,
       response: response ?? this.response,

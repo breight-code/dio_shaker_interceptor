@@ -41,9 +41,13 @@ class ShakerDioDetect {
               context.mounted &&
               !CurlLogs.instance.isAlreadyOpen) {
             CurlLogs.instance.isAlreadyOpen = true;
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const ListCurlScreen()),
-            );
+            Navigator.of(context)
+                .push(
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => const ListCurlScreen(),
+              ),
+            )
+                .then((_) => CurlLogs.instance.markClosed());
           }
         }
       },
